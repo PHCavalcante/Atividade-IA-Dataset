@@ -9,7 +9,8 @@ from pathlib import Path
 
 def preprocess(df: pd.DataFrame, target_col: str = "Conservation Status", test_size: float = 0.25, random_state: int = 42):
     df = df.copy()
-    X = df.drop(columns=[target_col])
+    cols_to_drop = [target_col, "Scientific Name", "Common Name", "Genus", "Family"]
+    X = df.drop(columns=[c for c in cols_to_drop if c in df.columns])
     y = df[target_col]
 
     numeric_cols = X.select_dtypes(include=["int64", "float64"]).columns.tolist()
